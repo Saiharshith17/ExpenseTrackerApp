@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.entities.UserInfo;
+import org.example.model.UserInfoDto;
 import org.example.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,6 +46,21 @@ public class UserDetailsServiceImpl implements UserDetailsService
         }
         log.info("User Authenticated Successfully..!!!");
         return new CustomUserDetails(user);
+    }
+
+    public UserInfo checkIfUserAlreadyExist(UserInfoDto userInfoDto){
+        return userRepository.findByUsername(userInfoDto.getUsername());  //generally good practice of writing the checking code in the service not directly in the repos
+    }
+
+    public Boolean signupUser(UserInfoDto userInfoDto){
+        userInfoDto.setPassword(passwordEncoder.encode(userInfoDto.getPassword()));
+        if(Objects.nonNull(checkIfUserAlreadyExist(userInfoDto))){
+            return false;
+
+        }
+        String userId=UUID.randomUUID().toString();
+        userRepository.save(new UserInfo(userId,userInfoDto.getUsername(),userInfoDto.getPassword(),new HashSet<>()));
+      return true;
     }
 
 }
