@@ -40,7 +40,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
 
         return http
-                .csrf(AbstractHttpConfigurer::disable).cors(CorsConfigurer::disable)
+                .csrf(AbstractHttpConfigurer::disable) // CSRF disabled here// Ensure CSRF is completely disabled
+                .cors(CorsConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/v1/login", "/auth/v1/refreshToken", "/auth/v1/signup").permitAll()
                         .anyRequest().authenticated()
@@ -50,6 +51,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .authenticationProvider(authenticationProvider())
                 .build();
+
     }
     @Bean
     public AuthenticationProvider authenticationProvider() {

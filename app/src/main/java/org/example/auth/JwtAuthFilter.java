@@ -1,5 +1,6 @@
 package org.example.auth;
 
+import lombok.EqualsAndHashCode;
 import org.example.service.JwtService;
 import org.example.service.UserDetailsServiceImpl;
 import jakarta.servlet.FilterChain;
@@ -19,6 +20,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+@EqualsAndHashCode(callSuper = true)
 @Component
 @AllArgsConstructor
 @Data
