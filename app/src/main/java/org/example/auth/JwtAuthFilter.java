@@ -37,6 +37,11 @@ public class JwtAuthFilter extends OncePerRequestFilter
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException, ServletException
     {
+        String requestURI = request.getRequestURI();
+        if (requestURI.equals("/auth/v1/signin") || requestURI.equals("/auth/v1/signup")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
