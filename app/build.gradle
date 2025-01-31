@@ -9,6 +9,15 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
 }
+plugins {
+    id 'org.springframework.boot' version '3.4.1'
+    id 'java'
+}
+bootJar {
+    archiveBaseName = 'authservice'  // Updated property name
+    version = '0.0.1-SNAPSHOT'
+}
+
 
 repositories {
     // Use Maven Central for resolving dependencies.
@@ -24,8 +33,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.4.1'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server:3.4.1'
     implementation 'mysql:mysql-connector-java:8.0.33'
-    implementation 'org.springframework.kafka:spring-kafka:3.0.0' // Replace with the appropriate version
+
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+    implementation 'org.springframework.kafka:spring-kafka:3.3.0'
 
 
     // JPA and ModelMapper
@@ -39,7 +49,7 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.36'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.36'
     //kafka dependencies
-    implementation 'org.springframework.kafka:spring-kafka:3.0.0' // Replace with your version
+
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
 
     // Test dependencies
@@ -74,3 +84,9 @@ application {
     // Define the main class for the application.
     mainClass = 'org.example.App'
 }
+jar {
+    manifest {
+        attributes 'Main-Class': 'org.example.App'
+    }
+}
+
