@@ -40,6 +40,14 @@ services:
     volumes:
       - mysql-db:/var/lib/mysql
 
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"  # Expose Redis default port
+    networks:
+      - app-network
+
   userservice:
     image: user-service
     container_name: user-service
@@ -48,6 +56,13 @@ services:
     depends_on:
       - kafka
       - mysql
+      - redis  # Make sure Redis is up before userservice
+    environment:
+      SPRING_REDIS_HOST: redis  # Connect to Redis service
+      SPRING_REDIS_PORT: 6379   # Default Redis port
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/your_database
+      SPRING_DATASOURCE_USERNAME: test
+      SPRING_DATASOURCE_PASSWORD: '1122'
 
   authservice:
     image: auth-service
@@ -57,6 +72,13 @@ services:
     depends_on:
       - kafka
       - mysql
+      - redis  # Make sure Redis is up before authservice
+    environment:
+      SPRING_REDIS_HOST: redis  # Connect to Redis service
+      SPRING_REDIS_PORT: 6379   # Default Redis port
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/your_database
+      SPRING_DATASOURCE_USERNAME: test
+      SPRING_DATASOURCE_PASSWORD: '1122'
 
   kong-service:
     image: kong
@@ -84,3 +106,7 @@ services:
 volumes:
   mysql-db:
     driver: local
+
+networks:
+  app-network:
+    driver: bridge
