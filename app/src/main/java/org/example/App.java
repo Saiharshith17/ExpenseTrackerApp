@@ -3,9 +3,14 @@
  */
 package org.example;
 
+import org.example.auth.JwtAuthFilter;
+import org.example.controller.SecurityConfig;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.web.SecurityFilterChain;
 
 @SpringBootApplication(scanBasePackages = "springaoptut")
 @EnableAspectJAutoProxy
@@ -14,5 +19,9 @@ public class App {
     public static void main(String[] args){
         SpringApplication.run(App.class, args);
     }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
+//        return new SecurityConfig().securityFilterChain(http);
+//    }
 
 }

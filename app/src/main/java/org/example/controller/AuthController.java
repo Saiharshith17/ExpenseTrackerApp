@@ -37,7 +37,9 @@ public class AuthController
     @PostMapping("auth/v1/signup")
     public ResponseEntity SignUp(@RequestBody UserInfoDto userInfoDto){
         try{
+            System.out.println("signup");
             String userId = userDetailsService.signupUser(userInfoDto);
+            System.out.println("userId");
             if(Objects.isNull(userId)){
                 return new ResponseEntity<>("Already Exist", HttpStatus.BAD_REQUEST);
             }
@@ -59,6 +61,11 @@ public class AuthController
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized");
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("Server is working!");
     }
 
     @GetMapping("/health")

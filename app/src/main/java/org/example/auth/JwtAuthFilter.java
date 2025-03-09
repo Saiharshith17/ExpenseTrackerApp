@@ -27,6 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        logger.info("Inside JwtAuthFilter...");
         String requestURI = request.getRequestURI();
 
         // Skip authentication for sign-in and sign-up routes
