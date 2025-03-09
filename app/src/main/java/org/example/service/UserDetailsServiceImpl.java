@@ -62,6 +62,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
         if(Objects.nonNull(checkIfUserAlreadyExist(userInfoDto))){
             return null;
 
+
         }
         String userId=UUID.randomUUID().toString();
         userRepository.save(new UserInfo(userId,userInfoDto.getUsername(),userInfoDto.getPassword(),new HashSet<>()));
